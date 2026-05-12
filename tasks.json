@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Experiments",
+      "type": "shell",
+      "command": "C:\\Users\\frhnr\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "args": [
+        "${workspaceFolder}\\scripts\\run_experiments.py",
+        "--dataset",
+        "D:\\SEMESTER 4\\strategi algoritma\\UAS\\code&dataset\\Dataset_uas.xlsx",
+        "--time-limit",
+        "8"
+      ],
+      "options": {
+        "env": {
+          "PYTHONPATH": "C:\\Users\\frhnr\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python"
+        }
+      },
+      "problemMatcher": []
+    }
+  ]
+}

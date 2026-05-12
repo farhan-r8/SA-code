@@ -1,0 +1,223 @@
+sheet_name,scenario_name,algorithm,worker,machine,cost
+Varian 3x3,Random,Greedy,Pekerja_3,M3,11
+Varian 3x3,Random,Greedy,Pekerja_1,M1,12
+Varian 3x3,Random,Greedy,Pekerja_2,M2,23
+Varian 3x3,Random,Branch and Bound,Pekerja_1,M1,12
+Varian 3x3,Random,Branch and Bound,Pekerja_2,M2,23
+Varian 3x3,Random,Branch and Bound,Pekerja_3,M3,11
+Varian 3x3,Structured,Greedy,Pekerja_1,M1,1
+Varian 3x3,Structured,Greedy,Pekerja_2,M2,2
+Varian 3x3,Structured,Greedy,Pekerja_3,M3,3
+Varian 3x3,Structured,Branch and Bound,Pekerja_1,M1,1
+Varian 3x3,Structured,Branch and Bound,Pekerja_2,M2,2
+Varian 3x3,Structured,Branch and Bound,Pekerja_3,M3,3
+Varian 3x3,Greedy Trap,Greedy,Pekerja_3,M2,1
+Varian 3x3,Greedy Trap,Greedy,Pekerja_2,M3,6
+Varian 3x3,Greedy Trap,Greedy,Pekerja_1,M1,10
+Varian 3x3,Greedy Trap,Branch and Bound,Pekerja_1,M2,2
+Varian 3x3,Greedy Trap,Branch and Bound,Pekerja_2,M1,7
+Varian 3x3,Greedy Trap,Branch and Bound,Pekerja_3,M3,4
+Varian 5x5,Random,Greedy,Pekerja_3,M1,11
+Varian 5x5,Random,Greedy,Pekerja_1,M4,12
+Varian 5x5,Random,Greedy,Pekerja_4,M2,12
+Varian 5x5,Random,Greedy,Pekerja_2,M3,23
+Varian 5x5,Random,Greedy,Pekerja_5,M5,60
+Varian 5x5,Random,Branch and Bound,Pekerja_1,M1,22
+Varian 5x5,Random,Branch and Bound,Pekerja_2,M3,23
+Varian 5x5,Random,Branch and Bound,Pekerja_3,M5,21
+Varian 5x5,Random,Branch and Bound,Pekerja_4,M2,12
+Varian 5x5,Random,Branch and Bound,Pekerja_5,M4,18
+Varian 5x5,Structured,Greedy,Pekerja_1,M1,1
+Varian 5x5,Structured,Greedy,Pekerja_2,M2,2
+Varian 5x5,Structured,Greedy,Pekerja_3,M3,3
+Varian 5x5,Structured,Greedy,Pekerja_4,M4,4
+Varian 5x5,Structured,Greedy,Pekerja_5,M5,5
+Varian 5x5,Structured,Branch and Bound,Pekerja_1,M1,1
+Varian 5x5,Structured,Branch and Bound,Pekerja_2,M2,2
+Varian 5x5,Structured,Branch and Bound,Pekerja_3,M3,3
+Varian 5x5,Structured,Branch and Bound,Pekerja_4,M4,4
+Varian 5x5,Structured,Branch and Bound,Pekerja_5,M5,5
+Varian 5x5,Skewed,Greedy,Pekerja_1,M1,10
+Varian 5x5,Skewed,Greedy,Pekerja_3,M3,78
+Varian 5x5,Skewed,Greedy,Pekerja_2,M5,85
+Varian 5x5,Skewed,Greedy,Pekerja_4,M2,85
+Varian 5x5,Skewed,Greedy,Pekerja_5,M4,91
+Varian 5x5,Skewed,Branch and Bound,Pekerja_1,M1,10
+Varian 5x5,Skewed,Branch and Bound,Pekerja_2,M5,85
+Varian 5x5,Skewed,Branch and Bound,Pekerja_3,M3,78
+Varian 5x5,Skewed,Branch and Bound,Pekerja_4,M4,87
+Varian 5x5,Skewed,Branch and Bound,Pekerja_5,M2,86
+Varian 7x7,Random,Greedy,Pekerja_5,M7,10
+Varian 7x7,Random,Greedy,Pekerja_6,M4,10
+Varian 7x7,Random,Greedy,Pekerja_4,M6,11
+Varian 7x7,Random,Greedy,Pekerja_1,M1,12
+Varian 7x7,Random,Greedy,Pekerja_2,M2,22
+Varian 7x7,Random,Greedy,Pekerja_3,M3,33
+Varian 7x7,Random,Greedy,Pekerja_7,M5,50
+Varian 7x7,Random,Branch and Bound,Pekerja_1,M1,12
+Varian 7x7,Random,Branch and Bound,Pekerja_2,M2,22
+Varian 7x7,Random,Branch and Bound,Pekerja_3,M3,33
+Varian 7x7,Random,Branch and Bound,Pekerja_4,M6,11
+Varian 7x7,Random,Branch and Bound,Pekerja_5,M7,10
+Varian 7x7,Random,Branch and Bound,Pekerja_6,M4,10
+Varian 7x7,Random,Branch and Bound,Pekerja_7,M5,50
+Varian 7x7,Sructured,Greedy,Pekerja_1,M1,1
+Varian 7x7,Sructured,Greedy,Pekerja_2,M2,2
+Varian 7x7,Sructured,Greedy,Pekerja_3,M3,3
+Varian 7x7,Sructured,Greedy,Pekerja_4,M4,4
+Varian 7x7,Sructured,Greedy,Pekerja_5,M5,5
+Varian 7x7,Sructured,Greedy,Pekerja_6,M6,6
+Varian 7x7,Sructured,Greedy,Pekerja_7,M7,7
+Varian 7x7,Sructured,Branch and Bound,Pekerja_1,M1,1
+Varian 7x7,Sructured,Branch and Bound,Pekerja_2,M2,2
+Varian 7x7,Sructured,Branch and Bound,Pekerja_3,M3,3
+Varian 7x7,Sructured,Branch and Bound,Pekerja_4,M4,4
+Varian 7x7,Sructured,Branch and Bound,Pekerja_5,M5,5
+Varian 7x7,Sructured,Branch and Bound,Pekerja_6,M6,6
+Varian 7x7,Sructured,Branch and Bound,Pekerja_7,M7,7
+Varian 7x7,Skewed,Greedy,Pekerja_1,M1,10
+Varian 7x7,Skewed,Greedy,Pekerja_3,M3,80
+Varian 7x7,Skewed,Greedy,Pekerja_6,M7,83
+Varian 7x7,Skewed,Greedy,Pekerja_2,M5,85
+Varian 7x7,Skewed,Greedy,Pekerja_4,M6,87
+Varian 7x7,Skewed,Greedy,Pekerja_7,M2,89
+Varian 7x7,Skewed,Greedy,Pekerja_5,M4,93
+Varian 7x7,Skewed,Branch and Bound,Pekerja_1,M1,10
+Varian 7x7,Skewed,Branch and Bound,Pekerja_2,M5,85
+Varian 7x7,Skewed,Branch and Bound,Pekerja_3,M4,82
+Varian 7x7,Skewed,Branch and Bound,Pekerja_4,M3,86
+Varian 7x7,Skewed,Branch and Bound,Pekerja_5,M6,88
+Varian 7x7,Skewed,Branch and Bound,Pekerja_6,M7,83
+Varian 7x7,Skewed,Branch and Bound,Pekerja_7,M2,89
+Varian 10x10,Random,Greedy,Pekerja_4,M10,10
+Varian 10x10,Random,Greedy,Pekerja_3,M3,11
+Varian 10x10,Random,Greedy,Pekerja_8,M9,11
+Varian 10x10,Random,Greedy,Pekerja_1,M1,12
+Varian 10x10,Random,Greedy,Pekerja_2,M5,12
+Varian 10x10,Random,Greedy,Pekerja_5,M4,12
+Varian 10x10,Random,Greedy,Pekerja_7,M8,23
+Varian 10x10,Random,Greedy,Pekerja_6,M6,34
+Varian 10x10,Random,Greedy,Pekerja_9,M2,56
+Varian 10x10,Random,Greedy,Pekerja_10,M7,67
+Varian 10x10,Random,Branch and Bound,Pekerja_1,M7,34
+Varian 10x10,Random,Branch and Bound,Pekerja_2,M5,12
+Varian 10x10,Random,Branch and Bound,Pekerja_3,M6,23
+Varian 10x10,Random,Branch and Bound,Pekerja_4,M2,12
+Varian 10x10,Random,Branch and Bound,Pekerja_5,M10,11
+Varian 10x10,Random,Branch and Bound,Pekerja_6,M1,23
+Varian 10x10,Random,Branch and Bound,Pekerja_7,M3,12
+Varian 10x10,Random,Branch and Bound,Pekerja_8,M4,12
+Varian 10x10,Random,Branch and Bound,Pekerja_9,M9,11
+Varian 10x10,Random,Branch and Bound,Pekerja_10,M8,23
+Varian 10x10,Structured,Greedy,Pekerja_1,M1,1
+Varian 10x10,Structured,Greedy,Pekerja_2,M2,2
+Varian 10x10,Structured,Greedy,Pekerja_3,M3,3
+Varian 10x10,Structured,Greedy,Pekerja_4,M4,4
+Varian 10x10,Structured,Greedy,Pekerja_5,M5,5
+Varian 10x10,Structured,Greedy,Pekerja_6,M6,6
+Varian 10x10,Structured,Greedy,Pekerja_7,M7,7
+Varian 10x10,Structured,Greedy,Pekerja_8,M8,8
+Varian 10x10,Structured,Greedy,Pekerja_9,M9,9
+Varian 10x10,Structured,Greedy,Pekerja_10,M10,10
+Varian 10x10,Structured,Branch and Bound,Pekerja_1,M1,1
+Varian 10x10,Structured,Branch and Bound,Pekerja_2,M2,2
+Varian 10x10,Structured,Branch and Bound,Pekerja_3,M3,3
+Varian 10x10,Structured,Branch and Bound,Pekerja_4,M4,4
+Varian 10x10,Structured,Branch and Bound,Pekerja_5,M5,5
+Varian 10x10,Structured,Branch and Bound,Pekerja_6,M6,6
+Varian 10x10,Structured,Branch and Bound,Pekerja_7,M7,7
+Varian 10x10,Structured,Branch and Bound,Pekerja_8,M8,8
+Varian 10x10,Structured,Branch and Bound,Pekerja_9,M9,9
+Varian 10x10,Structured,Branch and Bound,Pekerja_10,M10,10
+Varian 10x10,Skewed,Greedy,Pekerja_1,M1,10
+Varian 10x10,Skewed,Greedy,Pekerja_8,M10,76
+Varian 10x10,Skewed,Greedy,Pekerja_3,M3,80
+Varian 10x10,Skewed,Greedy,Pekerja_6,M9,81
+Varian 10x10,Skewed,Greedy,Pekerja_10,M8,82
+Varian 10x10,Skewed,Greedy,Pekerja_2,M5,85
+Varian 10x10,Skewed,Greedy,Pekerja_4,M7,85
+Varian 10x10,Skewed,Greedy,Pekerja_5,M6,88
+Varian 10x10,Skewed,Greedy,Pekerja_7,M2,89
+Varian 10x10,Skewed,Greedy,Pekerja_9,M4,92
+Varian 10x10,Skewed,Branch and Bound,Pekerja_1,M1,10
+Varian 10x10,Skewed,Branch and Bound,Pekerja_2,M5,85
+Varian 10x10,Skewed,Branch and Bound,Pekerja_3,M3,80
+Varian 10x10,Skewed,Branch and Bound,Pekerja_4,M10,82
+Varian 10x10,Skewed,Branch and Bound,Pekerja_5,M6,88
+Varian 10x10,Skewed,Branch and Bound,Pekerja_6,M9,81
+Varian 10x10,Skewed,Branch and Bound,Pekerja_7,M4,90
+Varian 10x10,Skewed,Branch and Bound,Pekerja_8,M7,79
+Varian 10x10,Skewed,Branch and Bound,Pekerja_9,M2,90
+Varian 10x10,Skewed,Branch and Bound,Pekerja_10,M8,82
+Varian 12x12,Random,Greedy,Pekerja_4,M10,10
+Varian 12x12,Random,Greedy,Pekerja_3,M3,11
+Varian 12x12,Random,Greedy,Pekerja_8,M9,11
+Varian 12x12,Random,Greedy,Pekerja_12,M1,11
+Varian 12x12,Random,Greedy,Pekerja_2,M5,12
+Varian 12x12,Random,Greedy,Pekerja_5,M4,12
+Varian 12x12,Random,Greedy,Pekerja_9,M12,13
+Varian 12x12,Random,Greedy,Pekerja_7,M8,23
+Varian 12x12,Random,Greedy,Pekerja_1,M11,25
+Varian 12x12,Random,Greedy,Pekerja_11,M2,32
+Varian 12x12,Random,Greedy,Pekerja_6,M6,34
+Varian 12x12,Random,Greedy,Pekerja_10,M7,67
+Varian 12x12,Random,Branch and Bound,Pekerja_1,M7,34
+Varian 12x12,Random,Branch and Bound,Pekerja_2,M2,23
+Varian 12x12,Random,Branch and Bound,Pekerja_3,M6,23
+Varian 12x12,Random,Branch and Bound,Pekerja_4,M10,10
+Varian 12x12,Random,Branch and Bound,Pekerja_5,M4,12
+Varian 12x12,Random,Branch and Bound,Pekerja_6,M5,12
+Varian 12x12,Random,Branch and Bound,Pekerja_7,M3,12
+Varian 12x12,Random,Branch and Bound,Pekerja_8,M9,11
+Varian 12x12,Random,Branch and Bound,Pekerja_9,M12,13
+Varian 12x12,Random,Branch and Bound,Pekerja_10,M8,23
+Varian 12x12,Random,Branch and Bound,Pekerja_11,M1,21
+Varian 12x12,Random,Branch and Bound,Pekerja_12,M11,20
+Varian 12x12,Structured,Greedy,Pekerja_1,M1,1
+Varian 12x12,Structured,Greedy,Pekerja_2,M2,2
+Varian 12x12,Structured,Greedy,Pekerja_3,M3,3
+Varian 12x12,Structured,Greedy,Pekerja_4,M4,4
+Varian 12x12,Structured,Greedy,Pekerja_5,M5,5
+Varian 12x12,Structured,Greedy,Pekerja_6,M6,6
+Varian 12x12,Structured,Greedy,Pekerja_7,M7,7
+Varian 12x12,Structured,Greedy,Pekerja_8,M8,8
+Varian 12x12,Structured,Greedy,Pekerja_9,M9,9
+Varian 12x12,Structured,Greedy,Pekerja_10,M10,10
+Varian 12x12,Structured,Greedy,Pekerja_11,M11,11
+Varian 12x12,Structured,Greedy,Pekerja_12,M12,12
+Varian 12x12,Structured,Branch and Bound,Pekerja_1,M1,1
+Varian 12x12,Structured,Branch and Bound,Pekerja_2,M2,2
+Varian 12x12,Structured,Branch and Bound,Pekerja_3,M3,3
+Varian 12x12,Structured,Branch and Bound,Pekerja_4,M4,4
+Varian 12x12,Structured,Branch and Bound,Pekerja_5,M5,5
+Varian 12x12,Structured,Branch and Bound,Pekerja_6,M6,6
+Varian 12x12,Structured,Branch and Bound,Pekerja_7,M7,7
+Varian 12x12,Structured,Branch and Bound,Pekerja_8,M8,8
+Varian 12x12,Structured,Branch and Bound,Pekerja_9,M9,9
+Varian 12x12,Structured,Branch and Bound,Pekerja_10,M10,10
+Varian 12x12,Structured,Branch and Bound,Pekerja_11,M11,11
+Varian 12x12,Structured,Branch and Bound,Pekerja_12,M12,12
+Varian 12x12,Skewed,Greedy,Pekerja_1,M1,10
+Varian 12x12,Skewed,Greedy,Pekerja_5,M11,45
+Varian 12x12,Skewed,Greedy,Pekerja_12,M4,46
+Varian 12x12,Skewed,Greedy,Pekerja_11,M9,70
+Varian 12x12,Skewed,Greedy,Pekerja_8,M10,76
+Varian 12x12,Skewed,Greedy,Pekerja_3,M3,80
+Varian 12x12,Skewed,Greedy,Pekerja_6,M8,82
+Varian 12x12,Skewed,Greedy,Pekerja_10,M7,83
+Varian 12x12,Skewed,Greedy,Pekerja_2,M5,85
+Varian 12x12,Skewed,Greedy,Pekerja_4,M6,87
+Varian 12x12,Skewed,Greedy,Pekerja_7,M2,89
+Varian 12x12,Skewed,Greedy,Pekerja_9,M12,96
+Varian 12x12,Skewed,Branch and Bound,Pekerja_1,M1,10
+Varian 12x12,Skewed,Branch and Bound,Pekerja_2,M5,85
+Varian 12x12,Skewed,Branch and Bound,Pekerja_3,M3,80
+Varian 12x12,Skewed,Branch and Bound,Pekerja_4,M10,82
+Varian 12x12,Skewed,Branch and Bound,Pekerja_5,M11,45
+Varian 12x12,Skewed,Branch and Bound,Pekerja_6,M8,82
+Varian 12x12,Skewed,Branch and Bound,Pekerja_7,M2,89
+Varian 12x12,Skewed,Branch and Bound,Pekerja_8,M6,80
+Varian 12x12,Skewed,Branch and Bound,Pekerja_9,M12,96
+Varian 12x12,Skewed,Branch and Bound,Pekerja_10,M7,83
+Varian 12x12,Skewed,Branch and Bound,Pekerja_11,M9,70
+Varian 12x12,Skewed,Branch and Bound,Pekerja_12,M4,46

@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Assignment Experiments",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_experiments.py",
+      "console": "integratedTerminal",
+      "python": "C:\\Users\\frhnr\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "env": {
+        "PYTHONPATH": "C:\\Users\\frhnr\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python"
+      },
+      "args": [
+        "--dataset",
+        "D:\\SEMESTER 4\\strategi algoritma\\UAS\\code&dataset\\Dataset_uas.xlsx",
+        "--time-limit",
+        "8"
+      ]
+    }
+  ]
+}

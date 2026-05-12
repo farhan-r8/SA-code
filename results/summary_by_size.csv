@@ -1,0 +1,6 @@
+matrix_size,greedy_cost_mean,branch_and_bound_cost_mean,greedy_runtime_ms_mean,branch_and_bound_runtime_ms_mean,optimality_gap_mean
+3,23.0,21.667,0.009,0.024,1.333
+5,160.667,152.333,0.01,0.071,8.333
+7,234.333,233.0,0.017,1.018,1.333
+10,357.0,331.667,0.035,564.121,25.333
+12,396.0,380.0,0.062,3359.407,16.0
