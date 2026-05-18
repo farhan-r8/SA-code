@@ -68,19 +68,17 @@ h1 {
   align-items: start;
 }
 
-.top-layout,
-.content-layout {
+.top-layout {
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);
   gap: 14px;
   align-items: start;
 }
 
-.sidebar-stack,
-.main-stack {
+.content-layout,
+.full-width-stack {
   display: grid;
   gap: 14px;
-  min-width: 0;
 }
 
 .dashboard-card,
@@ -118,7 +116,6 @@ h2 {
 }
 
 .eyebrow-label,
-.step-kicker,
 .result-card-subtitle {
   color: #405679;
   font-size: 0.66rem;
@@ -128,8 +125,8 @@ h2 {
 }
 
 .step-panel-title {
-  display: grid;
-  gap: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .step-title {
