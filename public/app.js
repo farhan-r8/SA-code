@@ -15,7 +15,6 @@ const state = {
 const scenarioSelect = document.getElementById("scenarioSelect");
 const timeLimitInput = document.getElementById("timeLimitInput");
 const reloadButton = document.getElementById("reloadButton");
-const applyNote = document.getElementById("applyNote");
 const scenarioTitle = document.getElementById("scenarioTitle");
 const scenarioMeta = document.getElementById("scenarioMeta");
 const gapPill = document.getElementById("gapPill");
@@ -50,9 +49,7 @@ const loadingTargets = [
 
 async function fetchJson(url) {
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
-  }
+  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
   return response.json();
 }
 
@@ -66,9 +63,7 @@ function buildQuery() {
 }
 
 function formatNumber(value) {
-  return new Intl.NumberFormat("id-ID", {
-    maximumFractionDigits: 2,
-  }).format(value);
+  return new Intl.NumberFormat("id-ID", { maximumFractionDigits: 2 }).format(value);
 }
 
 function formatMs(value) {
@@ -197,14 +192,9 @@ function renderMatrix() {
           ) {
             classes.push("cell-selected");
           }
-          return `
-            <td class="${classes.join(" ")}" data-worker-index="${workerIndex}" data-machine-index="${machineIndex}">
-              ${cost}
-            </td>
-          `;
+          return `<td class="${classes.join(" ")}" data-worker-index="${workerIndex}" data-machine-index="${machineIndex}">${cost}</td>`;
         })
         .join("");
-
       return `<tr><th>${worker}</th>${cells}</tr>`;
     })
     .join("");
@@ -455,11 +445,6 @@ async function loadScenario(scenarioId) {
   renderBranchFocus();
 }
 
-scenarioSelect.addEventListener("change", (event) => {
-  if (!event.target.value) return;
-  applyNote.innerHTML = 'Skenario diperbarui. Tekan <b>Terapkan</b> untuk menampilkan hasil.';
-});
-
 switchButtons.forEach((button) => {
   button.addEventListener("click", () => {
     state.selectedAlgorithm = button.dataset.algorithm;
@@ -506,7 +491,6 @@ reloadButton.addEventListener("click", async () => {
       scenarioSelect.value = selectedScenarioId;
       await loadScenario(selectedScenarioId);
     }
-    applyNote.innerHTML = "Hasil sudah diperbarui.";
   } finally {
     setLoading(false);
   }

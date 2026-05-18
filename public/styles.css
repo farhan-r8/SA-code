@@ -38,8 +38,8 @@ body {
 
 .hero {
   display: grid;
-  grid-template-columns: 1.5fr 0.9fr;
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 0;
   margin-bottom: 12px;
 }
 
