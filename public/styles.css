@@ -5,7 +5,6 @@
   --ink: #0f172a;
   --muted: #64748b;
   --line: rgba(15, 23, 42, 0.08);
-  --line-strong: rgba(15, 23, 42, 0.12);
   --primary: #2563eb;
   --success-soft: rgba(16, 185, 129, 0.14);
   --warning-soft: rgba(245, 158, 11, 0.14);
@@ -60,9 +59,6 @@ body {
 
 .hero-panel {
   padding: 16px;
-  background:
-    linear-gradient(180deg, rgba(37, 99, 235, 0.04), rgba(255, 255, 255, 0.84)),
-    var(--surface);
 }
 
 .eyebrow,
@@ -173,11 +169,6 @@ h3 {
   box-shadow: var(--shadow-soft);
 }
 
-.subpanel-spaced {
-  display: grid;
-  gap: 10px;
-}
-
 .control-actions {
   display: flex;
   flex-wrap: wrap;
@@ -243,31 +234,6 @@ input:focus {
 .primary-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
-}
-
-.demo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.demo-card {
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.84);
-  box-shadow: var(--shadow-soft);
-}
-
-.demo-card p {
-  color: var(--muted);
-  line-height: 1.4;
-  margin-bottom: 0;
-  font-size: 0.82rem;
-}
-
-.demo-card button {
-  margin-top: 10px;
 }
 
 .card-head {
@@ -455,31 +421,17 @@ input:focus {
   margin-bottom: 0;
 }
 
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(17, 24, 39, 0.1);
+  font-size: 0.82rem;
 }
 
-.metric-tile {
-  padding: 10px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(241, 245, 249, 0.98));
-  border: 1px solid rgba(15, 23, 42, 0.06);
-}
-
-.metric-tile span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 0.7rem;
-  color: var(--muted);
-}
-
-.metric-tile strong {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--ink);
-  letter-spacing: -0.02em;
+.metric-row span:last-child {
+  font-weight: 700;
 }
 
 .timeline,
@@ -572,10 +524,13 @@ input:focus {
   font-size: 0.82rem;
 }
 
+.is-hidden {
+  display: none;
+}
+
 @media (max-width: 960px) {
   .hero,
   .panel-grid-2,
-  .demo-grid,
   .charts-grid {
     grid-template-columns: 1fr;
   }
@@ -583,9 +538,5 @@ input:focus {
   .field,
   .small-field {
     min-width: 100%;
-  }
-
-  .metric-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
