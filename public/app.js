@@ -19,6 +19,7 @@ const demoGrid = document.getElementById("demoGrid");
 const scenarioTitle = document.getElementById("scenarioTitle");
 const scenarioMeta = document.getElementById("scenarioMeta");
 const gapPill = document.getElementById("gapPill");
+const resultSummary = document.getElementById("resultSummary");
 const matrixContainer = document.getElementById("matrixContainer");
 const cellDetail = document.getElementById("cellDetail");
 const comparisonGrid = document.getElementById("comparisonGrid");
@@ -289,12 +290,24 @@ function renderComparison() {
     gapPill.textContent = "Gap: -";
     scenarioTitle.textContent = "Belum ditampilkan";
     scenarioMeta.textContent = "";
+    resultSummary.innerHTML = 'Tekan <b>Terapkan</b> untuk melihat algoritma yang lebih optimal.';
     return;
   }
 
   gapPill.textContent = `Gap: ${state.scenario.optimality_gap}`;
   scenarioTitle.textContent = state.scenario.title;
   scenarioMeta.textContent = `${state.scenario.size} x ${state.scenario.size}`;
+
+  let summaryLabel = "Kedua algoritma memberi hasil yang sama.";
+  let summaryClass = "result-badge result-neutral";
+  if (state.scenario.greedy.total_cost < state.scenario.branch_and_bound.total_cost) {
+    summaryLabel = "Greedy memberi solusi lebih optimal pada skenario ini.";
+    summaryClass = "result-badge result-greedy";
+  } else if (state.scenario.branch_and_bound.total_cost < state.scenario.greedy.total_cost) {
+    summaryLabel = "Branch and Bound memberi solusi lebih optimal pada skenario ini.";
+    summaryClass = "result-badge result-bnb";
+  }
+  resultSummary.innerHTML = `<span class="${summaryClass}">${summaryLabel}</span>`;
 
   const algorithms = [
     {
@@ -313,7 +326,24 @@ function renderComparison() {
     .map(
       ({ title, data, note }) => `
         <article class="comparison-card">
-          <h3>${title}</h3>
+          <div class="comparison-head">
+            <h3>${title}</h3>
+            ${
+              title === "Greedy" && state.scenario.greedy.total_cost < state.scenario.branch_and_bound.total_cost
+                ? '<span class="mini-badge mini-greedy">Lebih optimal</span>'
+                : ""
+            }
+            ${
+              title === "Branch and Bound" && state.scenario.branch_and_bound.total_cost < state.scenario.greedy.total_cost
+                ? '<span class="mini-badge mini-bnb">Lebih optimal</span>'
+                : ""
+            }
+            ${
+              state.scenario.greedy.total_cost === state.scenario.branch_and_bound.total_cost
+                ? '<span class="mini-badge mini-neutral">Setara</span>'
+                : ""
+            }
+          </div>
           <p class="comparison-text">${note}</p>
           <div class="metric-row"><span>Total biaya</span><span>${formatNumber(data.total_cost)}</span></div>
           <div class="metric-row"><span>Runtime</span><span>${formatMs(data.runtime_ms)}</span></div>
