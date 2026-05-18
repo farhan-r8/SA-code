@@ -41,7 +41,15 @@
               <div class="soft-chip" id="scenarioMeta">-</div>
             </div>
             <div class="section-divider"></div>
+            <div class="matrix-legend">
+              <span class="legend-chip legend-greedy">Sel solusi Greedy</span>
+              <span class="legend-chip legend-bnb">Sel solusi Branch &amp; Bound</span>
+              <span class="legend-chip legend-neutral">Klik sel untuk melihat detail biaya</span>
+            </div>
             <div class="matrix-wrapper" id="matrixContainer"></div>
+            <div class="matrix-detail" id="matrixDetail">
+              Tabel akan menandai pasangan pekerja dan tugas yang dipilih oleh algoritma.
+            </div>
           </section>
         </aside>
 
@@ -72,6 +80,7 @@
                   <span class="step-pill" id="greedyStepLabel">Langkah -</span>
                 </div>
                 <div class="visual-canvas" id="greedyCanvas"></div>
+                <div class="step-insight" id="greedyInsight"></div>
                 <div class="step-caption" id="greedyCaption"></div>
               </article>
 
@@ -81,6 +90,7 @@
                   <span class="step-pill" id="branchStepLabel">Langkah -</span>
                 </div>
                 <div class="visual-canvas" id="branchCanvas"></div>
+                <div class="step-insight" id="branchInsight"></div>
                 <div class="step-caption" id="branchCaption"></div>
               </article>
             </div>

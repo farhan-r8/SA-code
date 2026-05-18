@@ -14,11 +14,14 @@ const timeLimitInput = document.getElementById("timeLimitInput");
 const reloadButton = document.getElementById("reloadButton");
 const scenarioMeta = document.getElementById("scenarioMeta");
 const matrixContainer = document.getElementById("matrixContainer");
+const matrixDetail = document.getElementById("matrixDetail");
 const comparisonGrid = document.getElementById("comparisonGrid");
 const greedyCanvas = document.getElementById("greedyCanvas");
+const greedyInsight = document.getElementById("greedyInsight");
 const greedyCaption = document.getElementById("greedyCaption");
 const greedyStepLabel = document.getElementById("greedyStepLabel");
 const branchCanvas = document.getElementById("branchCanvas");
+const branchInsight = document.getElementById("branchInsight");
 const branchCaption = document.getElementById("branchCaption");
 const branchStepLabel = document.getElementById("branchStepLabel");
 const sharedPrevButton = document.getElementById("sharedPrevButton");
@@ -96,12 +99,17 @@ function renderMatrix() {
   if (!state.scenario) {
     scenarioMeta.textContent = "-";
     matrixContainer.innerHTML = `<div class="empty-state">Pilih skenario lalu tekan Terapkan.</div>`;
+    matrixDetail.textContent = "Tabel akan menandai pasangan pekerja dan tugas yang dipilih oleh algoritma.";
     return;
   }
 
   scenarioMeta.textContent = `${state.scenario.workers.length} Workers x ${state.scenario.machines.length} Tasks`;
-  const selectedAssignments = new Set(
-    getSelectedAssignments().map((item) => `${item.worker_index}-${item.machine_index}`)
+  const selectedAssignments = new Set(getSelectedAssignments().map((item) => `${item.worker_index}-${item.machine_index}`));
+  const greedyAssignments = new Set(
+    state.scenario.greedy.assignments.map((item) => `${item.worker_index}-${item.machine_index}`)
+  );
+  const branchAssignments = new Set(
+    state.scenario.branch_and_bound.assignments.map((item) => `${item.worker_index}-${item.machine_index}`)
   );
 
   const header = state.scenario.machines.map((machine) => `<th>${machine}</th>`).join("");
@@ -111,9 +119,10 @@ function renderMatrix() {
         .map((cost, machineIndex) => {
           const key = `${workerIndex}-${machineIndex}`;
           const classes = ["cell-clickable"];
-          if (selectedAssignments.has(key)) {
-            classes.push(state.selectedAlgorithm === "greedy" ? "cell-greedy" : "cell-bnb");
-          }
+          if (greedyAssignments.has(key)) classes.push("cell-greedy");
+          if (branchAssignments.has(key)) classes.push("cell-bnb");
+          if (greedyAssignments.has(key) && branchAssignments.has(key)) classes.push("cell-shared");
+          if (selectedAssignments.has(key)) classes.push("cell-active-algorithm");
           if (
             state.selectedCell &&
             state.selectedCell.workerIndex === workerIndex &&
@@ -144,6 +153,39 @@ function renderMatrix() {
       renderMatrix();
     });
   });
+
+  updateMatrixDetail(greedyAssignments, branchAssignments);
+}
+
+function updateMatrixDetail(greedyAssignments, branchAssignments) {
+  if (!state.scenario) {
+    matrixDetail.textContent = "Tabel akan menandai pasangan pekerja dan tugas yang dipilih oleh algoritma.";
+    return;
+  }
+
+  if (!state.selectedCell) {
+    matrixDetail.innerHTML = `
+      <strong>Petunjuk baca:</strong>
+      Sel berwarna menandai pasangan yang dipilih oleh Greedy atau Branch &amp; Bound. Klik salah satu sel untuk melihat detail biaya dan status penugasannya.
+    `;
+    return;
+  }
+
+  const { workerIndex, machineIndex } = state.selectedCell;
+  const worker = state.scenario.workers[workerIndex];
+  const machine = state.scenario.machines[machineIndex];
+  const cost = state.scenario.cost_matrix[workerIndex][machineIndex];
+  const key = `${workerIndex}-${machineIndex}`;
+  const labels = [];
+  if (greedyAssignments.has(key)) labels.push("dipilih oleh Greedy");
+  if (branchAssignments.has(key)) labels.push("dipilih oleh Branch & Bound");
+  if (labels.length === 0) labels.push("tidak masuk solusi akhir");
+
+  matrixDetail.innerHTML = `
+    <strong>${worker} -> ${machine}</strong>
+    <span>Biaya: <b>${cost}</b></span>
+    <span>Status: ${labels.join(" dan ")}</span>
+  `;
 }
 
 function buildResultCard(title, data, options = {}) {
@@ -221,6 +263,7 @@ function renderGreedyVisual() {
   if (steps.length === 0) {
     greedyStepLabel.textContent = "Langkah -";
     greedyCanvas.innerHTML = `<div class="empty-state">Visual greedy akan tampil setelah hasil diterapkan.</div>`;
+    greedyInsight.innerHTML = "";
     greedyCaption.textContent = "";
     return;
   }
@@ -263,9 +306,16 @@ function renderGreedyVisual() {
     </div>
   `;
 
+  greedyInsight.innerHTML = `
+    <div class="insight-chip insight-primary">Pilih minimum lokal</div>
+    <div class="insight-chip">Worker: ${selected.worker}</div>
+    <div class="insight-chip">Task: ${selected.machine}</div>
+    <div class="insight-chip">Biaya: ${selected.cost}</div>
+  `;
+
   greedyCaption.innerHTML = `
     <strong>${selected.worker} -> ${selected.machine}</strong>
-    <span>Biaya ${selected.cost}</span>
+    <span>Greedy mengambil biaya minimum yang masih valid pada langkah ini, tanpa mengecek semua kemungkinan global.</span>
   `;
 }
 
@@ -274,6 +324,7 @@ function renderBranchVisual() {
   if (steps.length === 0) {
     branchStepLabel.textContent = "Langkah -";
     branchCanvas.innerHTML = `<div class="empty-state">Visual Branch and Bound akan tampil setelah hasil diterapkan.</div>`;
+    branchInsight.innerHTML = "";
     branchCaption.textContent = "";
     return;
   }
@@ -299,6 +350,12 @@ function renderBranchVisual() {
         <div class="branch-node ${pruned ? "branch-node-pruned" : ""}">${rightLabel}</div>
       </div>
     </div>
+  `;
+
+  branchInsight.innerHTML = `
+    <div class="insight-chip insight-primary">${branchLabel}</div>
+    <div class="insight-chip">Node: ${formatNumber(focus.nodes_explored)}</div>
+    <div class="insight-chip">Upper bound: ${focus.upper_bound_seed}</div>
   `;
 
   branchCaption.innerHTML = `
