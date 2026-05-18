@@ -1,51 +1,34 @@
 const state = {
   dashboard: null,
   scenario: null,
-  selectedAlgorithm: "greedy",
+  selectedAlgorithm: "branch_and_bound",
   selectedCell: null,
   greedyStepIndex: 0,
   branchStepIndex: 0,
   chartsVisible: false,
-  autoplay: {
-    greedy: null,
-    branch: null,
-  },
+  autoplay: null,
 };
 
 const scenarioSelect = document.getElementById("scenarioSelect");
 const timeLimitInput = document.getElementById("timeLimitInput");
 const reloadButton = document.getElementById("reloadButton");
-const scenarioTitle = document.getElementById("scenarioTitle");
 const scenarioMeta = document.getElementById("scenarioMeta");
-const gapPill = document.getElementById("gapPill");
-const resultSummary = document.getElementById("resultSummary");
 const matrixContainer = document.getElementById("matrixContainer");
-const cellDetail = document.getElementById("cellDetail");
 const comparisonGrid = document.getElementById("comparisonGrid");
-const greedyTimeline = document.getElementById("greedyTimeline");
-const branchFocus = document.getElementById("branchFocus");
-const branchTimeline = document.getElementById("branchTimeline");
+const greedyCanvas = document.getElementById("greedyCanvas");
+const greedyCaption = document.getElementById("greedyCaption");
+const greedyStepLabel = document.getElementById("greedyStepLabel");
+const branchCanvas = document.getElementById("branchCanvas");
+const branchCaption = document.getElementById("branchCaption");
+const branchStepLabel = document.getElementById("branchStepLabel");
+const sharedPrevButton = document.getElementById("sharedPrevButton");
+const sharedPlayButton = document.getElementById("sharedPlayButton");
+const sharedNextButton = document.getElementById("sharedNextButton");
 const chartsGrid = document.getElementById("chartsGrid");
 const chartsPanel = document.getElementById("chartsPanel");
 const toggleChartsButton = document.getElementById("toggleChartsButton");
-const switchButtons = Array.from(document.querySelectorAll(".switch-button"));
-const greedyPrevButton = document.getElementById("greedyPrevButton");
-const greedyNextButton = document.getElementById("greedyNextButton");
-const greedyPlayButton = document.getElementById("greedyPlayButton");
-const greedyStepLabel = document.getElementById("greedyStepLabel");
-const branchPrevButton = document.getElementById("branchPrevButton");
-const branchNextButton = document.getElementById("branchNextButton");
-const branchPlayButton = document.getElementById("branchPlayButton");
-const branchStepLabel = document.getElementById("branchStepLabel");
 
-const loadingTargets = [
-  matrixContainer,
-  comparisonGrid,
-  greedyTimeline,
-  branchFocus,
-  branchTimeline,
-  chartsGrid,
-];
+const loadingTargets = [matrixContainer, comparisonGrid, greedyCanvas, branchCanvas, chartsGrid];
 
 async function fetchJson(url) {
   const response = await fetch(url);
@@ -70,37 +53,25 @@ function formatMs(value) {
   return `${formatNumber(value)} ms`;
 }
 
-function isAutoplayRunning(kind) {
-  return Boolean(state.autoplay[kind]);
-}
-
-function updatePlayButtons() {
-  greedyPlayButton.textContent = isAutoplayRunning("greedy") ? "Pause" : "Play";
-  branchPlayButton.textContent = isAutoplayRunning("branch") ? "Pause" : "Play";
-}
-
 function setLoading(isLoading) {
   loadingTargets.forEach((element) => element?.classList.toggle("loading-block", isLoading));
   reloadButton.disabled = isLoading;
   reloadButton.textContent = isLoading ? "Memuat..." : "Terapkan";
 }
 
-function stopAutoplay(kind) {
-  if (state.autoplay[kind]) {
-    clearInterval(state.autoplay[kind]);
-    state.autoplay[kind] = null;
-    updatePlayButtons();
-  }
-}
-
-function stopAllAutoplay() {
-  stopAutoplay("greedy");
-  stopAutoplay("branch");
-}
-
 function updateChartsVisibility() {
   chartsPanel.classList.toggle("is-hidden", !state.chartsVisible);
-  toggleChartsButton.textContent = state.chartsVisible ? "Sembunyikan Grafik" : "Tampilkan Grafik";
+  toggleChartsButton.textContent = state.chartsVisible
+    ? "Sembunyikan Grafik Performa"
+    : "Tampilkan Grafik Performa";
+}
+
+function stopAutoplay() {
+  if (state.autoplay) {
+    clearInterval(state.autoplay);
+    state.autoplay = null;
+  }
+  sharedPlayButton.textContent = state.autoplay ? "||" : ">";
 }
 
 function getSelectedAssignments() {
@@ -121,56 +92,14 @@ function renderScenarioOptions() {
     .join("");
 }
 
-function updateCellDetailFromSelection() {
-  if (!state.scenario) {
-    cellDetail.textContent = "Klik salah satu sel matriks untuk melihat rincian pasangan pekerja, mesin, dan biaya.";
-    return;
-  }
-
-  if (!state.selectedCell) {
-    const firstSelection = getSelectedAssignments()[0];
-    if (firstSelection) {
-      state.selectedCell = {
-        workerIndex: firstSelection.worker_index,
-        machineIndex: firstSelection.machine_index,
-      };
-    }
-  }
-
-  if (!state.selectedCell) {
-    cellDetail.textContent = "Klik salah satu sel matriks untuk melihat rincian pasangan pekerja, mesin, dan biaya.";
-    return;
-  }
-
-  const { workerIndex, machineIndex } = state.selectedCell;
-  const worker = state.scenario.workers[workerIndex];
-  const machine = state.scenario.machines[machineIndex];
-  const cost = state.scenario.cost_matrix[workerIndex][machineIndex];
-  const isGreedy = state.scenario.greedy.assignments.some(
-    (item) => item.worker_index === workerIndex && item.machine_index === machineIndex
-  );
-  const isBranch = state.scenario.branch_and_bound.assignments.some(
-    (item) => item.worker_index === workerIndex && item.machine_index === machineIndex
-  );
-
-  const badges = [];
-  if (isGreedy) badges.push("termasuk dalam solusi Greedy");
-  if (isBranch) badges.push("termasuk dalam solusi Branch and Bound");
-  if (badges.length === 0) badges.push("tidak termasuk dalam solusi akhir");
-
-  cellDetail.innerHTML = `
-    <strong>${worker} -> ${machine}</strong><br />
-    Biaya: <b>${cost}</b><br />
-    Status penugasan: ${badges.join(", ")}
-  `;
-}
-
 function renderMatrix() {
   if (!state.scenario) {
-    matrixContainer.innerHTML = `<div class="empty-state">Hasil akan tampil setelah tombol Terapkan ditekan.</div>`;
+    scenarioMeta.textContent = "-";
+    matrixContainer.innerHTML = `<div class="empty-state">Pilih skenario lalu tekan Terapkan.</div>`;
     return;
   }
 
+  scenarioMeta.textContent = `${state.scenario.workers.length} Workers x ${state.scenario.machines.length} Tasks`;
   const selectedAssignments = new Set(
     getSelectedAssignments().map((item) => `${item.worker_index}-${item.machine_index}`)
   );
@@ -201,7 +130,7 @@ function renderMatrix() {
 
   matrixContainer.innerHTML = `
     <table class="matrix">
-      <thead><tr><th>Pekerja \\ Mesin</th>${header}</tr></thead>
+      <thead><tr><th></th>${header}</tr></thead>
       <tbody>${rows}</tbody>
     </table>
   `;
@@ -213,157 +142,187 @@ function renderMatrix() {
         machineIndex: Number(cell.dataset.machineIndex),
       };
       renderMatrix();
-      updateCellDetailFromSelection();
     });
   });
+}
 
-  updateCellDetailFromSelection();
+function buildResultCard(title, data, options = {}) {
+  const isBetter = options.isBetter;
+  const isSelected = state.selectedAlgorithm === options.algorithmKey;
+  const badge = options.badge
+    ? `<div class="status-badge ${options.badgeClass ?? ""}">${options.badge}</div>`
+    : `<div class="status-inline">${data.status === "ok" ? "Selesai" : data.status}</div>`;
+
+  return `
+    <article class="result-card ${isBetter ? "result-card-best" : ""} ${isSelected ? "result-card-active" : ""}" data-algorithm-card="${options.algorithmKey}">
+      <div class="result-card-top">
+        <h2 class="result-card-title">${title}</h2>
+        ${badge}
+      </div>
+      <div class="section-divider"></div>
+      <div class="result-metrics">
+        <div class="metric-block">
+          <span class="metric-label">Total Biaya</span>
+          <strong class="metric-value ${isBetter ? "metric-value-best" : ""}">${formatNumber(data.total_cost)}</strong>
+        </div>
+        <div class="metric-block">
+          <span class="metric-label">Runtime</span>
+          <strong class="metric-runtime">${formatMs(data.runtime_ms)}</strong>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+      <div class="result-footer">Node Dieksplor: ${formatNumber(data.nodes_explored)}</div>
+    </article>
+  `;
 }
 
 function renderComparison() {
   if (!state.scenario) {
-    comparisonGrid.innerHTML = "";
-    gapPill.textContent = "Gap: -";
-    scenarioTitle.textContent = "Belum ditampilkan";
-    scenarioMeta.textContent = "";
-    resultSummary.innerHTML = 'Tekan <b>Terapkan</b> untuk melihat algoritma yang lebih optimal.';
+    comparisonGrid.innerHTML = `
+      <article class="result-card">
+        <div class="empty-state">Hasil perbandingan akan muncul setelah tombol Terapkan ditekan.</div>
+      </article>
+    `;
     return;
   }
 
-  gapPill.textContent = `Gap: ${state.scenario.optimality_gap}`;
-  scenarioTitle.textContent = state.scenario.title;
-  scenarioMeta.textContent = `${state.scenario.size} x ${state.scenario.size}`;
+  const greedy = state.scenario.greedy;
+  const branch = state.scenario.branch_and_bound;
+  const branchBetter = branch.total_cost < greedy.total_cost;
+  const greedyBetter = greedy.total_cost < branch.total_cost;
+  const sameResult = greedy.total_cost === branch.total_cost;
 
-  let summaryLabel = "Kedua algoritma memberi hasil yang sama.";
-  let summaryClass = "result-badge result-neutral";
-  if (state.scenario.greedy.total_cost < state.scenario.branch_and_bound.total_cost) {
-    summaryLabel = "Greedy memberi solusi lebih optimal pada skenario ini.";
-    summaryClass = "result-badge result-greedy";
-  } else if (state.scenario.branch_and_bound.total_cost < state.scenario.greedy.total_cost) {
-    summaryLabel = "Branch and Bound memberi solusi lebih optimal pada skenario ini.";
-    summaryClass = "result-badge result-bnb";
-  }
-  resultSummary.innerHTML = `<span class="${summaryClass}">${summaryLabel}</span>`;
+  comparisonGrid.innerHTML = `
+    ${buildResultCard("Greedy", greedy, {
+      algorithmKey: "greedy",
+      isBetter: greedyBetter,
+      badge: sameResult ? "Setara" : "Selesai",
+      badgeClass: sameResult ? "badge-neutral" : "badge-muted",
+    })}
+    ${buildResultCard("Branch & Bound", branch, {
+      algorithmKey: "branch_and_bound",
+      isBetter: branchBetter,
+      badge: branchBetter ? "Lebih Optimal" : sameResult ? "Setara" : "Selesai",
+      badgeClass: branchBetter ? "badge-best" : sameResult ? "badge-neutral" : "badge-muted",
+    })}
+  `;
 
-  const algorithms = [
-    {
-      title: "Greedy",
-      data: state.scenario.greedy,
-      note: "Memilih biaya minimum yang masih valid pada setiap langkah keputusan.",
-      better:
-        state.scenario.greedy.total_cost < state.scenario.branch_and_bound.total_cost
-          ? '<span class="mini-badge mini-greedy">Lebih optimal</span>'
-          : state.scenario.greedy.total_cost === state.scenario.branch_and_bound.total_cost
-            ? '<span class="mini-badge mini-neutral">Setara</span>'
-            : "",
-    },
-    {
-      title: "Branch and Bound",
-      data: state.scenario.branch_and_bound,
-      note: "Mengevaluasi ruang solusi dan memangkas cabang yang tidak lagi menjanjikan.",
-      better:
-        state.scenario.branch_and_bound.total_cost < state.scenario.greedy.total_cost
-          ? '<span class="mini-badge mini-bnb">Lebih optimal</span>'
-          : state.scenario.greedy.total_cost === state.scenario.branch_and_bound.total_cost
-            ? '<span class="mini-badge mini-neutral">Setara</span>'
-            : "",
-    },
-  ];
-
-  comparisonGrid.innerHTML = algorithms
-    .map(
-      ({ title, data, note, better }) => `
-        <article class="comparison-card">
-          <div class="comparison-head">
-            <h3>${title}</h3>
-            ${better}
-          </div>
-          <p class="comparison-text">${note}</p>
-          <div class="metric-row"><span>Total biaya</span><span>${formatNumber(data.total_cost)}</span></div>
-          <div class="metric-row"><span>Runtime</span><span>${formatMs(data.runtime_ms)}</span></div>
-          <div class="metric-row"><span>Status</span><span>${data.status}</span></div>
-          <div class="metric-row"><span>Node dieksplor</span><span>${formatNumber(data.nodes_explored)}</span></div>
-        </article>
-      `
-    )
-    .join("");
+  comparisonGrid.querySelectorAll("[data-algorithm-card]").forEach((card) => {
+    card.addEventListener("click", () => {
+      state.selectedAlgorithm = card.dataset.algorithmCard;
+      renderComparison();
+      renderMatrix();
+    });
+  });
 }
 
-function renderGreedyTimeline() {
+function renderGreedyVisual() {
   const steps = state.scenario?.greedy_trace ?? [];
   if (steps.length === 0) {
-    greedyTimeline.innerHTML = `<div class="empty-state">Simulasi muncul setelah hasil diterapkan.</div>`;
     greedyStepLabel.textContent = "Langkah -";
-    greedyPrevButton.disabled = true;
-    greedyNextButton.disabled = true;
+    greedyCanvas.innerHTML = `<div class="empty-state">Visual greedy akan tampil setelah hasil diterapkan.</div>`;
+    greedyCaption.textContent = "";
     return;
   }
 
   state.greedyStepIndex = Math.max(0, Math.min(state.greedyStepIndex, steps.length - 1));
   const step = steps[state.greedyStepIndex];
-  greedyStepLabel.textContent = `Langkah ${step.step} / ${steps.length}`;
-  greedyPrevButton.disabled = state.greedyStepIndex === 0;
-  greedyNextButton.disabled = state.greedyStepIndex === steps.length - 1;
+  const selected = step.selected;
+  const workers = state.scenario?.workers ?? [];
+  const selectedWorkers = steps.slice(0, state.greedyStepIndex + 1).map((item) => item.selected.worker);
+  const upcomingWorkers = workers.filter((worker) => !selectedWorkers.includes(worker)).slice(0, 2);
 
-  greedyTimeline.innerHTML = `
-    <article class="timeline-item">
-      <strong>Langkah ${step.step}</strong>
-      <p class="timeline-copy">
-        Greedy memilih <b>${step.selected.worker}</b> ke <b>${step.selected.machine}</b>
-        dengan biaya <b>${step.selected.cost}</b>.
-      </p>
-    </article>
+  greedyStepLabel.textContent = `${step.step}/${steps.length}`;
+
+  const previousNodes = selectedWorkers
+    .map(
+      (worker, index) => `
+        <div class="flow-node ${index === state.greedyStepIndex ? "flow-node-active" : ""}">
+          ${worker}
+        </div>
+        <div class="flow-link ${index === state.greedyStepIndex && upcomingWorkers.length === 0 ? "flow-link-soft" : ""}"></div>
+      `
+    )
+    .join("");
+
+  const upcomingNodes = upcomingWorkers
+    .map(
+      (worker, index) => `
+        <div class="flow-node flow-node-muted">${worker}</div>
+        ${index < upcomingWorkers.length - 1 ? '<div class="flow-link flow-link-soft"></div>' : ""}
+      `
+    )
+    .join("");
+
+  greedyCanvas.innerHTML = `
+    <div class="flow-vertical">
+      <div class="flow-root">R</div>
+      <div class="flow-link"></div>
+      ${previousNodes}
+      ${upcomingNodes}
+    </div>
+  `;
+
+  greedyCaption.innerHTML = `
+    <strong>${selected.worker} -> ${selected.machine}</strong>
+    <span>Biaya ${selected.cost}</span>
   `;
 }
 
-function renderBranchFocus() {
-  if (!state.scenario) {
-    branchFocus.innerHTML = `<div class="empty-state">Ringkasan Branch and Bound muncul setelah hasil diterapkan.</div>`;
-    branchTimeline.innerHTML = `<div class="empty-state">Simulasi muncul setelah hasil diterapkan.</div>`;
-    branchStepLabel.textContent = "Langkah -";
-    branchPrevButton.disabled = true;
-    branchNextButton.disabled = true;
-    return;
-  }
-
-  const focus = state.scenario.branch_and_bound_focus;
-  branchFocus.innerHTML = `
-    <article class="focus-item">
-      <strong>Ringkasan Branch and Bound</strong>
-      <p class="focus-copy">
-        Status: <b>${focus.status}</b>, node dieksplorasi:
-        <b>${formatNumber(focus.nodes_explored)}</b>, upper bound awal:
-        <b>${focus.upper_bound_seed}</b>.
-      </p>
-    </article>
-  `;
-
-  const steps = state.scenario.branch_and_bound_trace ?? [];
+function renderBranchVisual() {
+  const steps = state.scenario?.branch_and_bound_trace ?? [];
   if (steps.length === 0) {
-    branchTimeline.innerHTML = `<div class="empty-state">Belum ada jejak Branch and Bound.</div>`;
     branchStepLabel.textContent = "Langkah -";
-    branchPrevButton.disabled = true;
-    branchNextButton.disabled = true;
+    branchCanvas.innerHTML = `<div class="empty-state">Visual Branch and Bound akan tampil setelah hasil diterapkan.</div>`;
+    branchCaption.textContent = "";
     return;
   }
 
   state.branchStepIndex = Math.max(0, Math.min(state.branchStepIndex, steps.length - 1));
   const step = steps[state.branchStepIndex];
-  branchStepLabel.textContent = `Langkah ${step.step} / ${steps.length}`;
-  branchPrevButton.disabled = state.branchStepIndex === 0;
-  branchNextButton.disabled = state.branchStepIndex === steps.length - 1;
+  const focus = state.scenario.branch_and_bound_focus;
+  const workers = state.scenario?.workers ?? [];
+  const leftLabel = focus.priority_worker ?? workers[0] ?? "W1";
+  const rightLabel = focus.alternative_worker ?? workers[1] ?? "W2";
+  const pruned = /pangkas|prune/i.test(step.detail);
+  const branchLabel = pruned ? "Cabang dipangkas" : "Cabang aktif";
 
-  branchTimeline.innerHTML = `
-    <article class="timeline-item">
-      <strong>${step.title}</strong>
-      <p class="timeline-copy">${step.detail}</p>
-    </article>
+  branchStepLabel.textContent = `${step.step}/${steps.length}`;
+
+  branchCanvas.innerHTML = `
+    <div class="branch-tree">
+      <div class="flow-root">R</div>
+      <div class="branch-label">${branchLabel}</div>
+      <div class="branch-connectors"></div>
+      <div class="branch-row">
+        <div class="branch-node branch-node-active">${leftLabel}</div>
+        <div class="branch-node ${pruned ? "branch-node-pruned" : ""}">${rightLabel}</div>
+      </div>
+    </div>
   `;
+
+  branchCaption.innerHTML = `
+    <strong>${step.title}</strong>
+    <span>${step.detail}</span>
+  `;
+}
+
+function renderSharedControls() {
+  const greedySteps = state.scenario?.greedy_trace ?? [];
+  const branchSteps = state.scenario?.branch_and_bound_trace ?? [];
+  const maxGreedy = Math.max(greedySteps.length - 1, 0);
+  const maxBranch = Math.max(branchSteps.length - 1, 0);
+
+  sharedPrevButton.disabled = !state.scenario || (state.greedyStepIndex === 0 && state.branchStepIndex === 0);
+  sharedNextButton.disabled =
+    !state.scenario || (state.greedyStepIndex >= maxGreedy && state.branchStepIndex >= maxBranch);
+  sharedPlayButton.disabled = !state.scenario || (greedySteps.length <= 1 && branchSteps.length <= 1);
+  sharedPlayButton.textContent = state.autoplay ? "||" : ">";
 }
 
 function renderCharts() {
   if (!state.dashboard) {
-    chartsGrid.innerHTML = `<div class="empty-state">Grafik akan tampil setelah tombol Tampilkan Grafik ditekan.</div>`;
+    chartsGrid.innerHTML = `<div class="empty-state">Grafik akan tampil setelah data dashboard dimuat.</div>`;
     return;
   }
 
@@ -385,45 +344,62 @@ function renderCharts() {
     .join("");
 }
 
-function updateAlgorithmButtons() {
-  switchButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.algorithm === state.selectedAlgorithm);
-  });
-}
-
 function resetScenarioDerivedState() {
-  stopAllAutoplay();
+  stopAutoplay();
   state.selectedCell = null;
   state.greedyStepIndex = 0;
   state.branchStepIndex = 0;
 }
 
-function toggleAutoplay(kind) {
-  const steps =
-    kind === "greedy" ? state.scenario?.greedy_trace ?? [] : state.scenario?.branch_and_bound_trace ?? [];
-  const indexKey = kind === "greedy" ? "greedyStepIndex" : "branchStepIndex";
-  const renderFn = kind === "greedy" ? renderGreedyTimeline : renderBranchFocus;
+function renderAllScenarioViews() {
+  renderMatrix();
+  renderComparison();
+  renderGreedyVisual();
+  renderBranchVisual();
+  renderSharedControls();
+}
 
-  if (steps.length <= 1) return;
+function stepForward() {
+  const greedySteps = state.scenario?.greedy_trace ?? [];
+  const branchSteps = state.scenario?.branch_and_bound_trace ?? [];
+  if (state.greedyStepIndex < greedySteps.length - 1) state.greedyStepIndex += 1;
+  if (state.branchStepIndex < branchSteps.length - 1) state.branchStepIndex += 1;
+  renderGreedyVisual();
+  renderBranchVisual();
+  renderSharedControls();
+}
 
-  if (isAutoplayRunning(kind)) {
-    stopAutoplay(kind);
+function stepBackward() {
+  if (state.greedyStepIndex > 0) state.greedyStepIndex -= 1;
+  if (state.branchStepIndex > 0) state.branchStepIndex -= 1;
+  renderGreedyVisual();
+  renderBranchVisual();
+  renderSharedControls();
+}
+
+function toggleAutoplay() {
+  const greedySteps = state.scenario?.greedy_trace ?? [];
+  const branchSteps = state.scenario?.branch_and_bound_trace ?? [];
+  if (greedySteps.length <= 1 && branchSteps.length <= 1) return;
+
+  if (state.autoplay) {
+    stopAutoplay();
     return;
   }
 
-  stopAutoplay(kind === "greedy" ? "branch" : "greedy");
-  state.autoplay[kind] = setInterval(() => {
-    if (state[indexKey] >= steps.length - 1) {
-      stopAutoplay(kind);
+  state.autoplay = setInterval(() => {
+    const greedyDone = state.greedyStepIndex >= greedySteps.length - 1;
+    const branchDone = state.branchStepIndex >= branchSteps.length - 1;
+    if (greedyDone && branchDone) {
+      stopAutoplay();
       return;
     }
-    state[indexKey] += 1;
-    renderFn();
+    stepForward();
   }, 1800);
-  updatePlayButtons();
+  renderSharedControls();
 }
 
-async function loadDashboard(renderResults = true) {
+async function loadDashboard() {
   const currentSelection = scenarioSelect.value;
   state.dashboard = await fetchJson(`/api/dashboard${buildQuery()}`);
   renderScenarioOptions();
@@ -433,60 +409,20 @@ async function loadDashboard(renderResults = true) {
   ) {
     scenarioSelect.value = currentSelection;
   }
-  if (renderResults) renderCharts();
+  renderCharts();
 }
 
 async function loadScenario(scenarioId) {
   state.scenario = await fetchJson(`/api/scenarios/${scenarioId}${buildQuery()}`);
   resetScenarioDerivedState();
-  renderMatrix();
-  renderComparison();
-  renderGreedyTimeline();
-  renderBranchFocus();
+  renderAllScenarioViews();
 }
 
-switchButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    state.selectedAlgorithm = button.dataset.algorithm;
-    updateAlgorithmButtons();
-    renderMatrix();
-  });
-});
-
-greedyPrevButton.addEventListener("click", () => {
-  stopAutoplay("greedy");
-  state.greedyStepIndex -= 1;
-  renderGreedyTimeline();
-});
-
-greedyNextButton.addEventListener("click", () => {
-  stopAutoplay("greedy");
-  state.greedyStepIndex += 1;
-  renderGreedyTimeline();
-});
-
-branchPrevButton.addEventListener("click", () => {
-  stopAutoplay("branch");
-  state.branchStepIndex -= 1;
-  renderBranchFocus();
-});
-
-branchNextButton.addEventListener("click", () => {
-  stopAutoplay("branch");
-  state.branchStepIndex += 1;
-  renderBranchFocus();
-});
-
-greedyPlayButton.addEventListener("click", () => toggleAutoplay("greedy"));
-branchPlayButton.addEventListener("click", () => toggleAutoplay("branch"));
-
 reloadButton.addEventListener("click", async () => {
-  const selectedScenarioId =
-    scenarioSelect.value || String(state.dashboard?.scenarios?.[0]?.id ?? "");
-
+  const selectedScenarioId = scenarioSelect.value || String(state.dashboard?.scenarios?.[0]?.id ?? "");
   setLoading(true);
   try {
-    await loadDashboard(true);
+    await loadDashboard();
     if (selectedScenarioId) {
       scenarioSelect.value = selectedScenarioId;
       await loadScenario(selectedScenarioId);
@@ -496,21 +432,34 @@ reloadButton.addEventListener("click", async () => {
   }
 });
 
+sharedPrevButton.addEventListener("click", () => {
+  stopAutoplay();
+  stepBackward();
+});
+
+sharedNextButton.addEventListener("click", () => {
+  stopAutoplay();
+  stepForward();
+});
+
+sharedPlayButton.addEventListener("click", () => {
+  toggleAutoplay();
+});
+
 toggleChartsButton.addEventListener("click", () => {
   state.chartsVisible = !state.chartsVisible;
   updateChartsVisibility();
 });
 
-updateAlgorithmButtons();
-updatePlayButtons();
 updateChartsVisibility();
 renderMatrix();
 renderComparison();
-renderGreedyTimeline();
-renderBranchFocus();
+renderGreedyVisual();
+renderBranchVisual();
 renderCharts();
+renderSharedControls();
 
-loadDashboard(false)
+loadDashboard()
   .then(() => {
     const firstScenario = state.dashboard?.scenarios?.[0];
     if (firstScenario) scenarioSelect.value = String(firstScenario.id);
