@@ -33,6 +33,7 @@ body {
   width: min(1320px, calc(100% - 48px));
   margin: 0 auto;
   padding: 28px 0 36px;
+  overflow-x: clip;
 }
 
 h1,
@@ -98,6 +99,7 @@ h1 {
 .main-stack {
   display: grid;
   gap: 22px;
+  min-width: 0;
 }
 
 .dashboard-card,
@@ -394,12 +396,15 @@ input:focus {
 }
 
 .matrix-wrapper {
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+  scrollbar-gutter: stable;
 }
 
 .matrix {
-  width: 100%;
-  min-width: 520px;
+  width: max-content;
+  min-width: 100%;
   border-collapse: separate;
   border-spacing: 8px 10px;
   table-layout: fixed;
@@ -474,7 +479,7 @@ input:focus {
 }
 
 .matrix-medium {
-  min-width: 640px;
+  min-width: 720px;
 }
 
 .matrix-medium thead th:first-child,
@@ -491,19 +496,28 @@ input:focus {
 }
 
 .matrix-large {
-  min-width: 760px;
-  border-spacing: 6px 8px;
+  min-width: 860px;
+  border-spacing: 4px 6px;
 }
 
 .matrix-large thead th,
 .matrix-large tbody th {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
 .matrix-large td {
-  height: 44px;
-  font-size: 0.82rem;
-  border-radius: 10px;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  font-size: 0.76rem;
+  border-radius: 9px;
+}
+
+.matrix-large thead th:first-child,
+.matrix-large tbody th:first-child {
+  width: 110px;
+  min-width: 110px;
+  padding-right: 8px;
 }
 
 .matrix-detail strong,
@@ -763,6 +777,17 @@ button:disabled {
   cursor: not-allowed;
 }
 
+@media (max-width: 1360px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-stack,
+  .main-stack {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1160px) {
   .dashboard-layout {
     grid-template-columns: 1fr;
@@ -790,12 +815,21 @@ button:disabled {
 
   .matrix {
     min-width: 440px;
+    border-spacing: 4px 6px;
   }
 
   .matrix thead th:first-child,
   .matrix tbody th:first-child {
-    width: 96px;
-    min-width: 96px;
+    width: 84px;
+    min-width: 84px;
+    padding-right: 6px;
+    font-size: 0.7rem;
+  }
+
+  .matrix td {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
     font-size: 0.74rem;
   }
 
