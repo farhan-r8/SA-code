@@ -9,10 +9,13 @@
   <body>
     <div class="page-shell">
       <header class="hero">
-        <h1>Perbandingan Greedy dan Branch and Bound</h1>
-        <p class="hero-text">
-          Visualisasi implementasi assignment problem untuk mencari total biaya minimum.
-        </p>
+        <div>
+          <h1>Perbandingan Greedy dan Branch and Bound</h1>
+          <p class="hero-text">
+            Visualisasi implementasi assignment problem untuk mencari total biaya minimum.
+          </p>
+        </div>
+        <div class="hero-status">Live Simulation Active</div>
       </header>
 
       <main class="dashboard-layout">
@@ -42,8 +45,12 @@
             </div>
             <div class="section-divider"></div>
             <div class="matrix-legend">
-              <span class="legend-chip legend-greedy">Sel solusi Greedy</span>
-              <span class="legend-chip legend-bnb">Sel solusi Branch &amp; Bound</span>
+              <button class="legend-chip legend-toggle legend-greedy is-active" data-matrix-mode="greedy" type="button">
+                Lihat Greedy
+              </button>
+              <button class="legend-chip legend-toggle legend-bnb" data-matrix-mode="branch_and_bound" type="button">
+                Lihat Branch &amp; Bound
+              </button>
               <span class="legend-chip legend-neutral">Klik sel untuk melihat detail biaya</span>
             </div>
             <div class="matrix-wrapper" id="matrixContainer"></div>
@@ -58,16 +65,22 @@
 
           <section class="dashboard-card">
             <div class="section-head visualization-head">
-              <h2>Visualisasi Langkah</h2>
+              <div>
+                <div class="eyebrow-label">Algorithmic Step Visualization</div>
+                <h2>Visualisasi Langkah</h2>
+              </div>
               <div class="toolbar-cluster">
+                <button id="sharedResetButton" class="icon-button" type="button" aria-label="Reset">
+                  O
+                </button>
                 <button id="sharedPrevButton" class="icon-button" type="button" aria-label="Sebelumnya">
-                  |<
+                  <
                 </button>
                 <button id="sharedPlayButton" class="icon-button icon-button-primary" type="button" aria-label="Play">
-                  >
+                  Play
                 </button>
                 <button id="sharedNextButton" class="icon-button" type="button" aria-label="Berikutnya">
-                  >|
+                  >
                 </button>
               </div>
             </div>
@@ -76,7 +89,10 @@
             <div class="step-views">
               <article class="step-panel">
                 <div class="step-panel-head">
-                  <span class="step-title">Langkah: Greedy</span>
+                  <div class="step-panel-title">
+                    <span class="step-kicker">Strategy: Local Optima</span>
+                    <span class="step-title">Langkah: Greedy</span>
+                  </div>
                   <span class="step-pill" id="greedyStepLabel">Langkah -</span>
                 </div>
                 <div class="visual-canvas" id="greedyCanvas"></div>
@@ -86,7 +102,10 @@
 
               <article class="step-panel">
                 <div class="step-panel-head">
-                  <span class="step-title">Langkah: Branch &amp; Bound</span>
+                  <div class="step-panel-title">
+                    <span class="step-kicker">Strategy: Bound Pruning</span>
+                    <span class="step-title">Langkah: Branch &amp; Bound</span>
+                  </div>
                   <span class="step-pill" id="branchStepLabel">Langkah -</span>
                 </div>
                 <div class="visual-canvas" id="branchCanvas"></div>
