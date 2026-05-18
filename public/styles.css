@@ -365,6 +365,18 @@ input:focus {
   color: var(--primary);
 }
 
+.legend-greedy.is-active {
+  border-color: #f3b36b;
+  background: #fff4e6;
+  color: #c56b12;
+}
+
+.legend-bnb.is-active {
+  border-color: #8aa8ff;
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
 .legend-neutral {
   background: #fff;
 }
@@ -403,6 +415,15 @@ input:focus {
   color: #46546d;
   font-size: 0.82rem;
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.matrix thead th:first-child,
+.matrix tbody th:first-child {
+  width: 112px;
+  min-width: 112px;
+  padding-right: 10px;
+  text-align: right;
 }
 
 .matrix td {
@@ -424,10 +445,10 @@ input:focus {
 }
 
 .cell-greedy {
-  color: var(--primary);
+  color: #c56b12;
   font-weight: 800;
-  border-color: #9cb6ff;
-  background: #eff4ff;
+  border-color: #f1c58b;
+  background: #fff4e6;
 }
 
 .cell-bnb {
@@ -450,6 +471,39 @@ input:focus {
   color: var(--muted);
   font-size: 0.84rem;
   line-height: 1.55;
+}
+
+.matrix-medium {
+  min-width: 640px;
+}
+
+.matrix-medium thead th:first-child,
+.matrix-medium tbody th:first-child,
+.matrix-large thead th:first-child,
+.matrix-large tbody th:first-child {
+  width: 124px;
+  min-width: 124px;
+}
+
+.matrix-medium td {
+  height: 50px;
+  font-size: 0.88rem;
+}
+
+.matrix-large {
+  min-width: 760px;
+  border-spacing: 6px 8px;
+}
+
+.matrix-large thead th,
+.matrix-large tbody th {
+  font-size: 0.74rem;
+}
+
+.matrix-large td {
+  height: 44px;
+  font-size: 0.82rem;
+  border-radius: 10px;
 }
 
 .matrix-detail strong,
@@ -736,6 +790,13 @@ button:disabled {
 
   .matrix {
     min-width: 440px;
+  }
+
+  .matrix thead th:first-child,
+  .matrix tbody th:first-child {
+    width: 96px;
+    min-width: 96px;
+    font-size: 0.74rem;
   }
 
   .visual-canvas {

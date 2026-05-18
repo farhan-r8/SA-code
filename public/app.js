@@ -119,6 +119,8 @@ function renderMatrix() {
   }
 
   const selectedSet = getSelectedSet(state.matrixMode);
+  const sizeClass =
+    state.scenario.size >= 12 ? "matrix-large" : state.scenario.size >= 10 ? "matrix-medium" : "matrix-compact";
   scenarioMeta.textContent = `${state.scenario.workers.length}W x ${state.scenario.machines.length}T`;
 
   const header = state.scenario.machines.map((machine) => `<th>${machine}</th>`).join("");
@@ -146,7 +148,7 @@ function renderMatrix() {
     .join("");
 
   matrixContainer.innerHTML = `
-    <table class="matrix">
+    <table class="matrix ${sizeClass}">
       <thead><tr><th></th>${header}</tr></thead>
       <tbody>${rows}</tbody>
     </table>
