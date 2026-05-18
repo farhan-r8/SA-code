@@ -18,7 +18,7 @@
       </header>
 
       <main class="dashboard-layout">
-        <aside class="sidebar-stack">
+        <section class="top-layout">
           <section class="dashboard-card">
             <div class="section-head">
               <h2>Parameter Skenario</h2>
@@ -37,6 +37,11 @@
             </div>
           </section>
 
+          <div class="results-grid" id="comparisonGrid"></div>
+        </section>
+
+        <section class="content-layout">
+          <aside class="sidebar-stack">
           <section class="dashboard-card">
             <div class="section-head matrix-head">
               <h2>Cost Matrix Input</h2>
@@ -57,10 +62,9 @@
               Tabel akan menandai pasangan pekerja dan tugas yang dipilih oleh algoritma.
             </div>
           </section>
-        </aside>
+          </aside>
 
-        <section class="main-stack">
-          <div class="results-grid" id="comparisonGrid"></div>
+          <section class="main-stack">
 
           <section class="dashboard-card">
             <div class="section-head visualization-head">
@@ -119,6 +123,7 @@
             <div class="charts-panel is-hidden" id="chartsPanel">
               <div class="charts-grid" id="chartsGrid"></div>
             </div>
+          </section>
           </section>
         </section>
       </main>
