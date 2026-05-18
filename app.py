@@ -2,13 +2,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from flask import Flask, jsonify, redirect, request
+from flask import Flask, jsonify, request, send_from_directory
 
 from webapp import DEFAULT_DATASET, _build_dashboard, _load_bundle, _scenario_payload
 
 app = Flask(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+PUBLIC_DIR = PROJECT_ROOT / "public"
 DEFAULT_TIME_LIMIT = 8.0
 DATASET_PATH = DEFAULT_DATASET.resolve()
 
@@ -24,7 +25,7 @@ def _get_time_limit() -> float:
 
 @app.get("/")
 def root():
-    return redirect("/index.html", code=307)
+    return send_from_directory(PUBLIC_DIR, "index.html")
 
 
 @app.get("/api/dashboard")
