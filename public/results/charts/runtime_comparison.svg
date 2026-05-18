@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800">
+<rect width="100%" height="100%" fill="white"/>
+<text x="700.0" y="36" text-anchor="middle" font-size="24" font-family="Arial" fill="#222">Runtime Comparison</text>
+<text x="22" y="315.0" transform="rotate(-90 22,315.0)" text-anchor="middle" font-size="16" font-family="Arial" fill="#444">Runtime (ms)</text>
+<line x1="90" y1="560.0" x2="1360" y2="560.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="565.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">0.0</text>
+<line x1="90" y1="462.0" x2="1360" y2="462.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="467.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">2000.0</text>
+<line x1="90" y1="364.0" x2="1360" y2="364.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="369.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">4000.0</text>
+<line x1="90" y1="266.0" x2="1360" y2="266.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="271.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">6000.0</text>
+<line x1="90" y1="168.0" x2="1360" y2="168.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="173.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">8000.0</text>
+<line x1="90" y1="70.0" x2="1360" y2="70.0" stroke="#dddddd" stroke-width="1"/>
+<text x="80" y="75.0" text-anchor="end" font-size="12" font-family="Arial" fill="#555">10000.0</text>
+<line x1="90" y1="70" x2="90" y2="560" stroke="#333" stroke-width="1.5"/>
+<line x1="90" y1="560" x2="1360" y2="560" stroke="#333" stroke-width="1.5"/>
+<rect x="102.70" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="132.33" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="132.33" y="580" transform="rotate(45 132.33,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 3x3 / Random</text>
+<rect x="187.37" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="217.00" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="217.00" y="580" transform="rotate(45 217.00,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 3x3 / Structured</text>
+<rect x="272.03" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="301.67" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="301.67" y="580" transform="rotate(45 301.67,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 3x3 / Greedy Trap</text>
+<rect x="356.70" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="386.33" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="386.33" y="580" transform="rotate(45 386.33,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 5x5 / Random</text>
+<rect x="441.37" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="471.00" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="471.00" y="580" transform="rotate(45 471.00,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 5x5 / Structured</text>
+<rect x="526.03" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="555.67" y="559.99" width="29.63" height="0.01" fill="#dd8452"/>
+<text x="555.67" y="580" transform="rotate(45 555.67,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 5x5 / Skewed</text>
+<rect x="610.70" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="640.33" y="559.99" width="29.63" height="0.01" fill="#dd8452"/>
+<text x="640.33" y="580" transform="rotate(45 640.33,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 7x7 / Random</text>
+<rect x="695.37" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="725.00" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="725.00" y="580" transform="rotate(45 725.00,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 7x7 / Sructured</text>
+<rect x="780.03" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="809.67" y="559.86" width="29.63" height="0.14" fill="#dd8452"/>
+<text x="809.67" y="580" transform="rotate(45 809.67,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 7x7 / Skewed</text>
+<rect x="864.70" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="894.33" y="559.62" width="29.63" height="0.38" fill="#dd8452"/>
+<text x="894.33" y="580" transform="rotate(45 894.33,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 10x10 / Random</text>
+<rect x="949.37" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="979.00" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="979.00" y="580" transform="rotate(45 979.00,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 10x10 / Structured</text>
+<rect x="1034.03" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="1063.67" y="477.46" width="29.63" height="82.54" fill="#dd8452"/>
+<text x="1063.67" y="580" transform="rotate(45 1063.67,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 10x10 / Skewed</text>
+<rect x="1118.70" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="1148.33" y="556.17" width="29.63" height="3.83" fill="#dd8452"/>
+<text x="1148.33" y="580" transform="rotate(45 1148.33,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 12x12 / Random</text>
+<rect x="1203.37" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="1233.00" y="560.00" width="29.63" height="0.00" fill="#dd8452"/>
+<text x="1233.00" y="580" transform="rotate(45 1233.00,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 12x12 / Structured</text>
+<rect x="1288.03" y="560.00" width="29.63" height="0.00" fill="#4c72b0"/>
+<rect x="1317.67" y="70.00" width="29.63" height="490.00" fill="#dd8452"/>
+<text x="1317.67" y="580" transform="rotate(45 1317.67,580)" text-anchor="start" font-size="11" font-family="Arial" fill="#333">Varian 12x12 / Skewed</text>
+<rect x="1140" y="68" width="16" height="16" fill="#4c72b0"/>
+<text x="1164" y="80" font-size="13" font-family="Arial" fill="#333">Greedy</text>
+<rect x="1140" y="92" width="16" height="16" fill="#dd8452"/>
+<text x="1164" y="104" font-size="13" font-family="Arial" fill="#333">Branch and Bound</text>
+</svg>

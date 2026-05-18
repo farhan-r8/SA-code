@@ -58,14 +58,91 @@ Kalau kamu buka project ini di VS Code, file inti yang perlu ada adalah:
 ## Cara Menjalankan
 
 ```powershell
-python scripts/run_experiments.py --dataset "D:\SEMESTER 4\strategi algoritma\UAS\code&dataset\Dataset_uas.xlsx"
+py scripts/run_experiments.py --dataset "D:\SEMESTER 4\strategi algoritma\UAS\code&dataset\Dataset_uas.xlsx"
 ```
 
 Atau jika ingin mengatur batas waktu Branch and Bound:
 
 ```powershell
-python scripts/run_experiments.py --dataset "D:\SEMESTER 4\strategi algoritma\UAS\code&dataset\Dataset_uas.xlsx" --time-limit 8
+py scripts/run_experiments.py --dataset "D:\SEMESTER 4\strategi algoritma\UAS\code&dataset\Dataset_uas.xlsx" --time-limit 8
 ```
+
+## Menjalankan Web Frontend
+
+Untuk presentasi, project ini sekarang bisa dijalankan sebagai dashboard web lokal:
+
+```powershell
+py webapp.py
+```
+
+Jika ingin mengganti port atau batas waktu Branch and Bound:
+
+```powershell
+py webapp.py --port 8080 --time-limit 8
+```
+
+Setelah server berjalan, buka:
+
+```text
+http://127.0.0.1:8000
+```
+
+Yang ditampilkan di dashboard:
+
+- pilihan skenario untuk demo presentasi
+- mode demo presentasi untuk langsung lompat ke contoh penting
+- matriks biaya dengan sorotan assignment Greedy atau Branch and Bound
+- simulasi langkah per langkah Greedy dan Branch and Bound
+- grafik hasil eksperimen dari folder `results/charts`
+
+## Deploy ke Vercel
+
+Project ini sudah disiapkan untuk Vercel dengan struktur berikut:
+
+- `app.py` sebagai Flask app untuk endpoint `/api/*`
+- `public/` untuk file frontend statis
+- `vercel.json` untuk konfigurasi project
+
+### Opsi 1: Deploy lewat Dashboard Vercel
+
+1. Push project ini ke GitHub.
+2. Login ke [Vercel](https://vercel.com/).
+3. Klik `Add New...` lalu pilih `Project`.
+4. Import repository GitHub project ini.
+5. Vercel akan mendeteksi Python project secara otomatis.
+6. Klik `Deploy`.
+
+### Opsi 2: Deploy lewat Vercel CLI
+
+Install CLI:
+
+```powershell
+npm install -g vercel
+```
+
+Login:
+
+```powershell
+vercel login
+```
+
+Deploy preview:
+
+```powershell
+vercel
+```
+
+Deploy production:
+
+```powershell
+vercel --prod
+```
+
+### Catatan Deploy
+
+- Dataset production tetap berasal dari `data/Dataset_uas.xlsx`
+- Endpoint API ada di `/api/dashboard` dan `/api/scenarios/:id`
+- File frontend dibaca dari folder `public/`
 
 ## Output yang Dihasilkan
 

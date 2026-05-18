@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Assignment Problem</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Assignment Problem Dashboard</p>
+          <h1>Perbandingan Greedy dan Branch and Bound</h1>
+          <p class="hero-text">
+            Mencari penugasan pekerja ke mesin dengan total biaya minimum.
+          </p>
+          <div class="purpose-row">
+            <span class="purpose-chip">Input: matriks biaya</span>
+            <span class="purpose-chip">Proses: Greedy vs Branch and Bound</span>
+            <span class="purpose-chip">Output: biaya total minimum</span>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-label">Tujuan</div>
+          <p>Menunjukkan algoritma mana yang lebih cepat dan mana yang memberi solusi lebih optimal.</p>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="glass-card main-panel">
+          <div class="card-head">
+            <div>
+              <p class="section-kicker">Panel 1</p>
+              <h2>Skenario</h2>
+            </div>
+          </div>
+          <div class="panel-grid panel-grid-2">
+            <div class="subpanel">
+              <div class="section-kicker">Kontrol Skenario</div>
+              <div class="control-actions">
+                <label class="field">
+                  <span>Skenario</span>
+                  <select id="scenarioSelect"></select>
+                </label>
+                <label class="field small-field">
+                  <span>Batas waktu BnB (detik)</span>
+                  <input id="timeLimitInput" type="number" min="1" step="1" value="8" />
+                </label>
+                <button id="reloadButton" class="primary-button" type="button">
+                  Terapkan
+                </button>
+              </div>
+              <div class="apply-note" id="applyNote">
+                Pilih skenario dan batas waktu, lalu tekan <b>Terapkan</b> untuk menampilkan hasil.
+              </div>
+            </div>
+            <div class="subpanel">
+              <div class="section-kicker">Alur</div>
+              <div class="flow-row">
+                <span class="flow-chip">1. Pilih skenario</span>
+                <span class="flow-chip">2. Lihat matriks</span>
+                <span class="flow-chip">3. Bandingkan hasil</span>
+                <span class="flow-chip">4. Jalankan simulasi</span>
+              </div>
+            </div>
+          </div>
+          <div class="subpanel subpanel-spaced">
+            <div class="section-kicker">Mode Demo</div>
+            <div class="demo-grid" id="demoGrid"></div>
+          </div>
+        </section>
+
+        <section class="glass-card main-panel">
+          <div class="card-head">
+            <div>
+              <p class="section-kicker">Panel 2</p>
+              <h2>Analisis</h2>
+            </div>
+          </div>
+          <div class="stack-grid">
+            <article class="subpanel">
+              <div class="card-head">
+                <div>
+                  <p class="section-kicker">Data Skenario</p>
+                  <h2 id="scenarioTitle">Belum ditampilkan</h2>
+                </div>
+                <div class="pill" id="scenarioMeta"></div>
+              </div>
+              <div class="algorithm-switcher">
+                <button class="switch-button active" data-algorithm="greedy" type="button">
+                  Sorot Greedy
+                </button>
+                <button class="switch-button" data-algorithm="branch_and_bound" type="button">
+                  Sorot Branch and Bound
+                </button>
+              </div>
+              <div class="matrix-legend">
+                <span class="legend-item legend-greedy">Solusi Greedy</span>
+                <span class="legend-item legend-bnb">Solusi Branch and Bound</span>
+                <span class="legend-item legend-hover">Klik sel untuk meninjau detail biaya</span>
+              </div>
+              <div class="matrix-wrapper" id="matrixContainer"></div>
+              <div class="cell-detail" id="cellDetail">
+                Klik salah satu sel matriks untuk melihat pasangan pekerja, mesin, dan biaya
+                penugasannya.
+              </div>
+            </article>
+
+            <article class="subpanel">
+              <div class="card-head">
+                <div>
+                  <p class="section-kicker">Perbandingan Hasil</p>
+                  <h2>Hasil</h2>
+                </div>
+                <div class="pill" id="gapPill">Gap: -</div>
+              </div>
+              <div class="comparison-grid" id="comparisonGrid"></div>
+              <div class="reading-guide" id="readingGuide">
+                <span class="reading-chip">Biaya lebih kecil = lebih baik</span>
+                <span class="reading-chip">Runtime lebih kecil = lebih cepat</span>
+                <span class="reading-chip">Gap &gt; 0 = Greedy kurang optimal</span>
+              </div>
+            </article>
+
+            <div class="panel-grid panel-grid-2">
+              <article class="subpanel">
+                <div class="card-head">
+                  <div>
+                    <p class="section-kicker">Jejak Proses</p>
+                    <h2>Langkah Greedy</h2>
+                  </div>
+                </div>
+                <div class="stepper-toolbar">
+                  <button id="greedyPrevButton" class="ghost-button" type="button">Sebelumnya</button>
+                  <button id="greedyPlayButton" class="primary-button" type="button">Play</button>
+                  <div class="pill" id="greedyStepLabel">Langkah -</div>
+                  <button id="greedyNextButton" class="ghost-button" type="button">Berikutnya</button>
+                </div>
+                <div class="timeline" id="greedyTimeline"></div>
+              </article>
+
+              <article class="subpanel">
+                <div class="card-head">
+                  <div>
+                    <p class="section-kicker">Strategi Branch and Bound</p>
+                    <h2>Langkah Branch and Bound</h2>
+                  </div>
+                </div>
+                <div class="focus-list" id="branchFocus"></div>
+                <div class="stepper-toolbar">
+                  <button id="branchPrevButton" class="ghost-button" type="button">Sebelumnya</button>
+                  <button id="branchPlayButton" class="primary-button" type="button">Play</button>
+                  <div class="pill" id="branchStepLabel">Langkah -</div>
+                  <button id="branchNextButton" class="ghost-button" type="button">Berikutnya</button>
+                </div>
+                <div class="timeline" id="branchTimeline"></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="glass-card main-panel">
+          <div class="card-head">
+            <div>
+              <p class="section-kicker">Panel 3</p>
+              <h2>Grafik</h2>
+            </div>
+          </div>
+          <article class="subpanel">
+            <div class="card-head">
+              <div>
+                <p class="section-kicker">Grafik Eksperimen</p>
+                <h2>Grafik Hasil</h2>
+              </div>
+            </div>
+            <div class="charts-grid" id="chartsGrid"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
