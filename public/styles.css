@@ -32,6 +32,7 @@ body {
     radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
     radial-gradient(circle at bottom right, rgba(148, 163, 184, 0.12), transparent 28%),
     linear-gradient(180deg, var(--bg), var(--bg-accent));
+  transition: background 180ms ease;
 }
 
 .page-shell {
@@ -390,6 +391,13 @@ textarea:focus {
 
 .matrix-wrapper {
   overflow: auto;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.loading-block {
+  opacity: 0.55;
+  transform: translateY(2px);
+  pointer-events: none;
 }
 
 .matrix {
@@ -477,6 +485,7 @@ textarea:focus {
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.74);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .comparison-card h3 {
@@ -532,6 +541,7 @@ textarea:focus {
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.74);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .timeline-item p,
@@ -596,6 +606,7 @@ textarea:focus {
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.74);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .chart-card img {

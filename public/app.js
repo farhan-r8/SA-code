@@ -35,6 +35,14 @@ const branchPrevButton = document.getElementById("branchPrevButton");
 const branchNextButton = document.getElementById("branchNextButton");
 const branchPlayButton = document.getElementById("branchPlayButton");
 const branchStepLabel = document.getElementById("branchStepLabel");
+const loadingTargets = [
+  document.getElementById("matrixContainer"),
+  document.getElementById("comparisonGrid"),
+  document.getElementById("greedyTimeline"),
+  document.getElementById("branchFocus"),
+  document.getElementById("branchTimeline"),
+  document.getElementById("chartsGrid"),
+];
 
 async function fetchJson(url) {
   const response = await fetch(url);
@@ -70,6 +78,17 @@ function isAutoplayRunning(kind) {
 function updatePlayButtons() {
   greedyPlayButton.textContent = isAutoplayRunning("greedy") ? "Pause" : "Play";
   branchPlayButton.textContent = isAutoplayRunning("branch") ? "Pause" : "Play";
+}
+
+function setLoading(isLoading) {
+  document.body.classList.toggle("is-loading", isLoading);
+  loadingTargets.forEach((element) => {
+    if (element) {
+      element.classList.toggle("loading-block", isLoading);
+    }
+  });
+  reloadButton.disabled = isLoading;
+  reloadButton.textContent = isLoading ? "Memuat..." : "Terapkan";
 }
 
 function stopAutoplay(kind) {
@@ -444,8 +463,15 @@ function toggleAutoplay(kind) {
 }
 
 async function loadDashboard(renderResults = true) {
+  const currentSelection = scenarioSelect.value;
   state.dashboard = await fetchJson(`/api/dashboard${buildQuery()}`);
   renderScenarioOptions();
+  if (
+    currentSelection &&
+    state.dashboard?.scenarios?.some((item) => String(item.id) === currentSelection)
+  ) {
+    scenarioSelect.value = currentSelection;
+  }
   renderDemoModes();
   if (renderResults) {
     renderCharts();
@@ -510,13 +536,22 @@ branchPlayButton.addEventListener("click", () => {
 });
 
 reloadButton.addEventListener("click", async () => {
-  await loadDashboard(true);
-  const currentId = scenarioSelect.value || String(state.dashboard?.scenarios?.[0]?.id ?? "");
-  if (currentId) {
-    scenarioSelect.value = currentId;
-    await loadScenario(currentId);
+  const selectedScenarioId =
+    scenarioSelect.value || String(state.dashboard?.scenarios?.[0]?.id ?? "");
+
+  setLoading(true);
+  try {
+    await loadDashboard(true);
+    const currentId =
+      selectedScenarioId || String(state.dashboard?.scenarios?.[0]?.id ?? "");
+    if (currentId) {
+      scenarioSelect.value = currentId;
+      await loadScenario(currentId);
+    }
+    applyNote.innerHTML = "Hasil sudah diperbarui.";
+  } finally {
+    setLoading(false);
   }
-  applyNote.innerHTML = "Hasil sudah diperbarui.";
 });
 
 updateAlgorithmButtons();
